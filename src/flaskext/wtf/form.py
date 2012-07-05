@@ -38,7 +38,7 @@ class Form(SessionSecureForm):
 
         if csrf_enabled is None:
             csrf_enabled = current_app.config.get('CSRF_ENABLED', True)
-        self.csrf_enabled = csrf_enabled
+        self.csrf_enabled = False
 
         if formdata is _Auto:
             if self.is_submitted:
