@@ -1,8 +1,13 @@
-Flask on App Engine Project Template
+Subscribely Project Template
 ====================================
 
-Boilerplate project template for running a Flask-based application on 
-Google App Engine (Python)
+Live version:
+sockclub-staging.appspot.com
+
+Boilerplate project template for running a Flask-based Subscription Service on 
+Google App Engine (Python).  I will eventually add support for SQL backends.
+
+This project uses Stripe (http://stripe.com) for processing credit card payments.
 
 Python 2.7 Runtime Support
 --------------------------
@@ -161,6 +166,8 @@ Package Versions
 - Blinker: 1.1
 - Bootstrap: 2.0.3
 - Flask: 0.8
+- Flask-Auth: 0.8
+- Flask-OAuth: 0.8
 - Flask-WTF: 0.6
 - Jinja2: 2.6 (included in GAE)
 - Modernizr: 2.5.3
