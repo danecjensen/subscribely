@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% from "_formhelpers.html" import render_field %}
+<form method=post action="/users">
+  <dl>
+    {{ render_field(form.name) }}
+    {{ render_field(form.address1) }}
+    {{ render_field(form.address2) }}
+    {{ render_field(form.name) }}
+    {{ render_field(form.address1) }}
+    {{ render_field(form.address2) }}
+  </dl>
+  <p><input type=submit value=Update>
+</form>
+{% endblock %}

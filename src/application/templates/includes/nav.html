@@ -6,18 +6,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="/">Flask on App Engine</a>
+            <a class="brand" href="/">Subscribely</a>
             <div class="nav-collapse">
                 <ul class="nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Dropdown Menu
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Item One</a></li>
-                            <li><a href="#">Item Two</a></li>
-                        </ul>
+                    <li>
+                        <a href="http://www.sotmclub.com/">Sock Club</a>
+                    </li>
+                    <li>
+                        <a href="http://www.sotmclub.com/">Subscribely Source</a>
                     </li>
                     <li>
                         <a href="https://developers.google.com/appengine/docs/python/python27/using27">App Engine docs</a>
@@ -30,6 +26,24 @@
                     </li>
                 </ul>
             </div><!--/.nav-collapse -->
+
+            <ul class="nav" style="float: right;">
+              {% if user %}
+                <li>
+                    <a href="/account">Hello {{ user.username }}</a>
+                </li>
+                <li>
+                    <a href="/logout">Logout</a>
+                </li>
+              {% else %}
+                 <li>
+                    <a href="/login">Login</a>
+                </li>
+              {% endif %}
+            </ul>
+
+
+
         </div><!-- /.navbar .container -->
     </div><!-- /.navbar-inner -->
 </div><!-- /navbar -->

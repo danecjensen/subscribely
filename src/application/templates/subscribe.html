@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block head_script %}
+<script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript">
+    // this identifies your website in the createToken call below
+    Stripe.setPublishableKey('{{pub_key}}');
+
+    function stripeResponseHandler(status, response) {
+        if (response.error) {
+            // re-enable the submit button
+            $('.submit-button').removeAttr("disabled");
+            // show the errors on the form
+            $(".payment-errors").html(response.error.message);
+        } else {
+            var form$ = $("#payment-form");
+            // token contains id, last4, and card type
+            var token = response['id'];
+            // insert the token into the form so it gets submitted to the server
+            $('#stripeToken').val(token);
+            // and submit
+            form$.get(0).submit();
+        }
+    }
+
+    $(document).ready(function() {
+        $("#payment-form").submit(function(event) {
+            // disable the submit button to prevent repeated clicks
+            $('.submit-button').attr("disabled", "disabled");
+            // createToken returns immediately - the supplied callback submits the form if there are no errors
+            Stripe.createToken({
+                number: $('.card-number').val(),
+                cvc: $('.card-cvc').val(),
+                exp_month: $('.card-expiry-month').val(),
+                exp_year: $('.card-expiry-year').val()
+            }, stripeResponseHandler);
+            return false; // submit from callback
+        });
+    });
+
+    if (window.location.protocol === 'file:') {
+        alert("stripe.js does not work when included in pages served over file:// URLs. Try serving this page over a webserver. Contact support@stripe.com if you need assistance.");
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+{% from "_formhelpers.html" import render_field %}
+<form method=post action="/subscribe" id="payment-form">
+  <h2>Mailing Address</h2>
+  <dl>
+    {{ render_field(form.name) }}
+    {{ render_field(form.address1) }}
+    {{ render_field(form.address2) }}
+    {{ render_field(form.city) }}
+    {{ render_field(form.state) }}
+    {{ render_field(form.zipcode) }}
+    {{ render_field(form.country) }}
+    {{ form.stripeToken() }}
+  </dl>
+  <span class="payment-errors"></span>
+  <h2>Credit Card</h2>
+	<dl>
+	    
+	  <dt><label for="number">Credit Card Number</label>
+	  </dt><dd><input maxlength="20" autocomplete="off" class="card-number stripe-sensitive required" type="text" value="">
+	  
+	  </dd>
+
+	    
+	  <dt><label for="exp_month"></label>
+	  </dt><dd><select class="card-expiry-month stripe-sensitive required"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select>
+	  
+	  </dd>
+
+	    
+	  <dt><label for="exp_year"></label>
+	  </dt><dd><select class="card-expiry-year stripe-sensitive required"><option value="2012">2012</option><option value="2013">2013</option><option value="2014">2014</option><option value="2015">2015</option><option value="2016">2016</option><option value="2017">2017</option><option value="2018">2018</option></select>
+	  
+	  </dd>
+
+	    
+	  <dt><label for="cvc">CVC</label>
+	  </dt><dd><input maxlength="4" autocomplete="off" class="card-cvc stripe-sensitive required" type="text" value="">
+	  
+	  </dd>
+
+	</dl>
+  <p><input type=submit value=Subscribe class="submit-button">
+</form>
+{% endblock %}

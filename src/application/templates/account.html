@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Subscription Plan</h1>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Interval</th>
+            <th>Price</th>
+            <th>Started</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+    	{% if customer %}
+        <tr>
+            <td>{{ customer.subscription.plan.name }}</td>
+            <td>{{ customer.subscription.object }}</td>
+            <td>{{ customer.subscription.plan.interval }}</td>
+            <td>{{ customer.subscription.plan.amount }} in cents</td>
+            <td>{{ customer.subscription.start }}</td>
+            <td>
+                <a href="{{ url_for('cancel_subscription') }}" class="btn">Cancel</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6">No examples yet</td></tr>
+        {% endif %}
+    </tbody>
+</table>
+<br>
+<h1>Mailing Address</h1>
+<h3>{{mail.name}}</h3>
+<h3>{{mail.address1}} {{mail.address2}}</h3>
+<h3>{{mail.city}}, {{mail.state}} {{mail.zipcode}}</h3>
+<p>
+    <a class="btn btn-primary" href="{{url_for('edit_address')}}">
+        <i class="icon-plus-sign icon-white"></i>
+        Update Mailing Address
+    </a>
+</p>
+{% endblock %}

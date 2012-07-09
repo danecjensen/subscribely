@@ -10,8 +10,10 @@ class User(db.Model, AuthUser):
     """
     Implementation of User for persistence in Google's App Engine datastore.
     """
-    username = db.EmailProperty(required=True)
+    username = db.EmailProperty()
+    name = db.StringProperty()
     password = db.StringProperty()
+    stripe_customer_id = db.StringProperty()
     salt = db.StringProperty()
     role = db.StringProperty()
     created = db.DateTimeProperty(auto_now_add=True)
