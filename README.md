@@ -2,7 +2,7 @@ Subscribely Project Template
 ====================================
 
 Live version:
-sockclub-staging.appspot.com
+http://sockclub-staging.appspot.com
 
 Boilerplate project template for running a Flask-based Subscription Service on 
 Google App Engine (Python).  I will eventually add support for SQL backends.
