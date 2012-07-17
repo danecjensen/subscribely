@@ -12,8 +12,9 @@ For example the *say_hello* handler, handling the URL route '/hello/<username>',
 from application import app
 
 from google.appengine.runtime.apiproxy_errors import CapabilityDisabledError
+from google.appengine.api import mail
 
-from flask import render_template, request, flash, g, url_for, redirect, session
+from flask import render_template, render_template_string, request, flash, g, url_for, redirect, session
 
 from models import MailingAddress
 from decorators import admin_required
@@ -23,8 +24,8 @@ from flaskext.auth.models.gae import User
 from flaskext.oauth import OAuth
 import stripe
 
-FACEBOOK_APP_ID = '445467548819678'
-FACEBOOK_APP_SECRET = '6c176bb309a8bccd9ffd7ca9b3cf21f3'
+FACEBOOK_APP_ID = '445106095520759'
+FACEBOOK_APP_SECRET = 'b89cacf4ea4fdb08fed9f1d2f71a98a6'
 STRIPE_SECRET = 'oqfhEnnahozCOBvY0ZtxRNs9Arb4GrXG'
 STRIPE_PUB_KEY = 'pk_V5tvgwqsXfUlNrKwYrhE9SlqzHRLO'
 
@@ -191,6 +192,11 @@ def subscribe():
         m = MailingAddress(username=user.username, name=form.name.data, address1 = form.address1.data,\
             address2=form.address2.data, zipcode=form.zipcode.data, city=form.city.data, state=form.state.data, country=form.country.data)
         m.put()
+        context = dict()
+        bodytext = render_template_string('emails/confirmation.txt', context=context)
+        bodyhtml = render_template('emails/confirmation.html', context=context)
+        mail.send_mail(sender="<welcome@sotmclub.com>", to=user.username,
+                           subject="Welcome to the Club", body=bodytext, html=bodyhtml)
         return redirect(url_for('account'))
     return render_template('subscribe.html', form=form, pub_key=STRIPE_PUB_KEY)
 
